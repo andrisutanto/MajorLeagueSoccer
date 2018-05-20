@@ -13,6 +13,8 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.appgue.majorleaguesoccer.R
 import com.appgue.majorleaguesoccer.api.ApiRepository
+import com.appgue.majorleaguesoccer.details.TeamDetailActivity
+import com.appgue.majorleaguesoccer.eventdetails.EventDetailActivity
 import com.appgue.majorleaguesoccer.model.Event
 import com.appgue.majorleaguesoccer.util.invisible
 import com.appgue.majorleaguesoccer.util.visible
@@ -36,15 +38,12 @@ class PrevEventFragment : Fragment(), AnkoComponent<Context>, PrevEventView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
         //val spinnerItems = resources.getStringArray(league)
         //val spinnerAdapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, spinnerItems)
         //spinner.adapter = spinnerAdapter
 
         adapter = PrevEventAdapter(prevevent) {
-
-            //ctx.startActivity<TeamDetailActivity>("id" to "${it.leagueId}")
+            ctx.startActivity<EventDetailActivity>("id" to "${it.idEvent}")
         }
         listEvent.adapter = adapter
 
