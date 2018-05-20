@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="team_badge" type="id" />
+    <item name="event_date" type="id" />
     <item name="team_name" type="id" />
+    <item name="team_home" type="id" />
+    <item name="score_home" type="id" />
+    <item name="team_away" type="id" />
+    <item name="score_away" type="id" />
+    <item name="versus" type="id" />
     <item name="spinner" type="id" />
     <item name="listEvent" type="id" />
 </resources>

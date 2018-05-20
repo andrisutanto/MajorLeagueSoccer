@@ -5,8 +5,10 @@ import android.os.Bundle
 import com.appgue.majorleaguesoccer.R
 import com.appgue.majorleaguesoccer.R.id.favorites
 import com.appgue.majorleaguesoccer.R.id.teams
+import com.appgue.majorleaguesoccer.R.id.prevmatch
 import com.appgue.majorleaguesoccer.R.layout.activity_home
 import com.appgue.majorleaguesoccer.favorites.FavoriteTeamsFragment
+import com.appgue.majorleaguesoccer.previous.PrevEventFragment
 import com.appgue.majorleaguesoccer.teams.TeamsFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -18,6 +20,9 @@ class HomeActivity : AppCompatActivity() {
 
         bottom_navigation.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
+                prevmatch -> {
+                    loadPrevMatchFragment(savedInstanceState)
+                }
                 teams -> {
                     loadTeamsFragment(savedInstanceState)
                 }
@@ -27,9 +32,17 @@ class HomeActivity : AppCompatActivity() {
             }
             true
         })
-        bottom_navigation.selectedItemId = teams
+        bottom_navigation.selectedItemId = prevmatch
     }
 
+    private fun loadPrevMatchFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_container, PrevEventFragment(), PrevEventFragment::class.simpleName)
+                    .commit()
+        }
+    }
 
     private fun loadTeamsFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
