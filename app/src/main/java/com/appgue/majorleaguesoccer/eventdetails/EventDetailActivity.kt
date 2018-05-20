@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.appgue.majorleaguesoccer.R
+import com.appgue.majorleaguesoccer.R.id.versus_text
 import com.appgue.majorleaguesoccer.api.ApiRepository
 import com.appgue.majorleaguesoccer.db.Favorite
 import com.appgue.majorleaguesoccer.db.database
@@ -73,39 +74,43 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
 
                 scrollView {
                     isVerticalScrollBarEnabled = false
+
                     relativeLayout {
                         lparams(width = matchParent, height = wrapContent)
 
-                        linearLayout{
+                        linearLayout {
                             lparams(width = matchParent, height = wrapContent)
                             padding = dip(10)
                             orientation = LinearLayout.VERTICAL
                             gravity = Gravity.CENTER_HORIZONTAL
 
+                            dateEvent = textView { this.gravity = Gravity.CENTER }
 
+                            relativeLayout {
+                                lparams(width = matchParent, height = wrapContent)
 
-                                dateEvent = textView{this.gravity = Gravity.CENTER}
-                                versusText = textView{
+                                versusText = textView {
+                                    id = versus_text
                                     text = "VS"
-                                    gravity = Gravity.CENTER_HORIZONTAL
-                                }
+                                }.lparams{centerHorizontally()}
 
-                                homeScore = textView{
+                                homeScore = textView {
                                     textSize = 22f
                                     typeface = Typeface.DEFAULT_BOLD
-                                }
+                                }.lparams {leftOf(versus_text)}
 
-                                awayScore = textView{
+                                awayScore = textView {
                                     textSize = 22f
                                     typeface = Typeface.DEFAULT_BOLD
-                                }
+                                }.lparams {rightOf(versus_text)}
+                            }
 
 
-                            homeTeam = textView{
+                            homeTeam = textView {
                                 this.gravity = Gravity.CENTER
                             }
 
-                            awayTeam = textView{
+                            awayTeam = textView {
                                 this.gravity = Gravity.CENTER
                             }
 
