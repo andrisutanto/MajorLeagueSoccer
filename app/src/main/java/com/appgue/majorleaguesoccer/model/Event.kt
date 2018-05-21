@@ -64,6 +64,12 @@ data class Event (
     var strAwayLineupForward : String? = null,
 
     @SerializedName("strFilename")
-    var strFilename : String? = null
+    var strFilename : String? = null,
+
+    @SerializedName("idHomeTeam")
+    var idHomeTeam: String? = null,
+
+    @SerializedName("idAwayTeam")
+    var idAwayTeam: String? = null
 
 )

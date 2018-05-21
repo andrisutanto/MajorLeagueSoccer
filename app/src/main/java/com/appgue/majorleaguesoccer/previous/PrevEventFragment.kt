@@ -43,7 +43,10 @@ class PrevEventFragment : Fragment(), AnkoComponent<Context>, PrevEventView {
         //spinner.adapter = spinnerAdapter
 
         adapter = PrevEventAdapter(prevevent) {
-            ctx.startActivity<EventDetailActivity>("id" to "${it.idEvent}")
+            ctx.startActivity<EventDetailActivity>(
+                    "id" to "${it.idEvent}",
+                    "idHomeTeam" to "${it.idHomeTeam}",
+                    "idAwayTeam" to "${it.idAwayTeam}")
         }
         listEvent.adapter = adapter
 

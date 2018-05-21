@@ -18,17 +18,25 @@ import android.widget.TextView
 import com.appgue.majorleaguesoccer.R
 import com.appgue.majorleaguesoccer.R.id.*
 import com.appgue.majorleaguesoccer.api.ApiRepository
+import com.appgue.majorleaguesoccer.api.TheSportDBApi
+import com.appgue.majorleaguesoccer.api.TheSportDBApi.getTeamDetail
 import com.appgue.majorleaguesoccer.db.Favorite
 import com.appgue.majorleaguesoccer.db.database
 import com.appgue.majorleaguesoccer.details.TeamDetailPresenter
 import com.appgue.majorleaguesoccer.details.TeamDetailView
 import com.appgue.majorleaguesoccer.model.Event
 import com.appgue.majorleaguesoccer.model.Team
+import com.appgue.majorleaguesoccer.model.TeamBadge
+import com.appgue.majorleaguesoccer.model.TeamResponse
+import com.appgue.majorleaguesoccer.util.InitRetrofit
 import com.appgue.majorleaguesoccer.util.invisible
 import com.appgue.majorleaguesoccer.util.visible
 import com.google.gson.Gson
+import com.google.gson.internal.bind.TypeAdapters.URL
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
+import retrofit2.Call
+import retrofit2.Callback
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
@@ -39,6 +47,7 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
 class EventDetailActivity : AppCompatActivity(), EventDetailView {
     private lateinit var presenter: EventDetailPresenter
+    private lateinit var presenterTeam: TeamDetailPresenter
     private lateinit var events: Event
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
@@ -69,12 +78,16 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
     private lateinit var id: String
+    private lateinit var idHomeTeam: String
+    private lateinit var idAwayTeam: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val intent = intent
         id = intent.getStringExtra("id")
+        idHomeTeam = intent.getStringExtra("idHomeTeam")
+        idAwayTeam = intent.getStringExtra("idAwayTeam")
         supportActionBar?.title = "Event Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -432,6 +445,9 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
         presenter = EventDetailPresenter(this, request, gson)
         presenter.getEventDetail(id)
 
+        loadLogoHome(idHomeTeam.toInt())
+        loadLogoAway(idAwayTeam.toInt())
+
         swipeRefresh.onRefresh {
             presenter.getEventDetail(id)
         }
@@ -456,15 +472,7 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
     }
 
     override fun showEventDetail(data: List<Event>) {
-//        events = Event(data[0].idEvent,
-//                data[0].strHomeTeam,
-//                data[0].strAwayTeam,
-//                data[0].dateEvent,
-//                data[0].intHomeScore,
-//                data[0].intAwayScore)
         swipeRefresh.isRefreshing = false
-        Picasso.get().load("https://www.thesportsdb.com/images/media/team/badge/qtwprq1473536474.png").into(teamBadgeHome)
-        Picasso.get().load("https://www.thesportsdb.com/images/media/team/badge/qtwprq1473536474.png").into(teamBadgeAway)
         homeTeam.text = data[0].strHomeTeam
         awayTeam.text = data[0].strAwayTeam
         homeScore.text = data[0].intHomeScore
@@ -475,7 +483,6 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
         awayGoal.text = data[0].strAwayGoalDetails
         homeFormation.text = data[0].strHomeFormation
         awayFormation.text = data[0].strAwayFormation
-
         homeGoalkeeper.text = data[0].strHomeLineupGoalkeeper
         awayGoalkeeper.text = data[0].strAwayLineupGoalkeeper
         homeDefense.text = data[0].strHomeLineupDefense
@@ -484,9 +491,9 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
         awayMidfield.text = data[0].strAwayLineupMidfield
         homeForward.text = data[0].strHomeLineupForward
         awayForward.text = data[0].strAwayLineupForward
-
         dateEvent.text = data[0].dateEvent
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
@@ -539,6 +546,46 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
 //            snackbar(swipeRefresh, e.localizedMessage).show()
 //        }
 //    }
+
+
+    private fun loadLogoHome(idHomeTeam: Int) {
+
+        val api = InitRetrofit().getInitInstance()
+        val call = api.requestTeam(idHomeTeam)
+
+        call.enqueue(object : Callback<TeamBadge> {
+            override fun onResponse(call: Call<TeamBadge>?, response: retrofit2.Response<TeamBadge>?) {
+                if (response != null) {
+                    val uriBadgeHome = response.body()?.teamresult?.get(0)?.strTeamBadge.toString()
+                    Picasso.get().load(uriBadgeHome).into(teamBadgeHome)
+                }
+            }
+
+            override fun onFailure(call: Call<TeamBadge>?, t: Throwable?) {
+
+            }
+        })
+    }
+
+    private fun loadLogoAway(idAwayTeam: Int) {
+
+        val api = InitRetrofit().getInitInstance()
+        val call = api.requestTeam(idAwayTeam)
+
+        call.enqueue(object : Callback<TeamBadge> {
+            override fun onResponse(call: Call<TeamBadge>?, response: retrofit2.Response<TeamBadge>?) {
+                if (response != null) {
+                    val uriBadgeAway = response.body()?.teamresult?.get(0)?.strTeamBadge
+                    Picasso.get().load(uriBadgeAway).into(teamBadgeAway)
+                }
+            }
+
+            override fun onFailure(call: Call<TeamBadge>?, t: Throwable?) {
+
+            }
+        })
+    }
+
 
     private fun setFavorite() {
         if (isFavorite)

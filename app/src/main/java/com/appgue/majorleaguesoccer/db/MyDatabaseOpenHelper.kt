@@ -37,4 +37,4 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
 
 // Access property for Context
 val Context.database: MyDatabaseOpenHelper
-    get() = MyDatabaseOpenHelper.getInstance(applicationContext)
+get() = MyDatabaseOpenHelper.getInstance(applicationContext)
