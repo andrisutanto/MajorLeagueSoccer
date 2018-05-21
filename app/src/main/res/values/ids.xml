@@ -11,4 +11,21 @@
     <item name="versus" type="id" />
     <item name="spinner" type="id" />
     <item name="listEvent" type="id" />
+
+    <!--note: ID pada bagian detail pertandingan-->
+    <item name="team_logo_home" type="id" />
+    <item name="team_logo_away" type="id" />
+    <item name="score_home_detail" type="id" />
+    <item name="score_away_detail" type="id" />
+    <item name="team_home_detail" type="id" />
+    <item name="team_away_detail" type="id" />
+
+
+    <item name="goal_text" type="id" />
+    <item name="shot_text" type="id" />
+    <item name="lineup_text" type="id" />
+    <item name="goalkeeper_text" type="id" />
+    <item name="defense_text" type="id" />
+    <item name="midfield_text" type="id" />
+    <item name="forward_text" type="id" />
 </resources>

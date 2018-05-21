@@ -10,12 +10,13 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.appgue.majorleaguesoccer.R
-import com.appgue.majorleaguesoccer.R.id.versus_text
+import com.appgue.majorleaguesoccer.R.id.*
 import com.appgue.majorleaguesoccer.api.ApiRepository
 import com.appgue.majorleaguesoccer.db.Favorite
 import com.appgue.majorleaguesoccer.db.database
@@ -46,8 +47,24 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
     private lateinit var awayTeam: TextView
     private lateinit var homeScore: TextView
     private lateinit var awayScore: TextView
+    private lateinit var homeShot: TextView
+    private lateinit var awayShot: TextView
+    private lateinit var homeFormation: TextView
+    private lateinit var awayFormation: TextView
+    private lateinit var homeGoal: TextView
+    private lateinit var awayGoal: TextView
+    private lateinit var homeGoalkeeper: TextView
+    private lateinit var awayGoalkeeper: TextView
+    private lateinit var homeDefense: TextView
+    private lateinit var awayDefense: TextView
+    private lateinit var homeMidfield: TextView
+    private lateinit var awayMidfield: TextView
+    private lateinit var homeForward: TextView
+    private lateinit var awayForward: TextView
     private lateinit var dateEvent: TextView
     private lateinit var versusText: TextView
+    private lateinit var teamBadgeHome: ImageView
+    private lateinit var teamBadgeAway: ImageView
 
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
@@ -84,36 +101,321 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
                             orientation = LinearLayout.VERTICAL
                             gravity = Gravity.CENTER_HORIZONTAL
 
-                            dateEvent = textView { this.gravity = Gravity.CENTER }
+                            dateEvent = textView {
+                                this.gravity = Gravity.CENTER
+                                textColorResource = R.color.colorPrimary
+                            }
 
                             relativeLayout {
-                                lparams(width = matchParent, height = wrapContent)
+                                lparams(width = matchParent, height = dip(50))
 
                                 versusText = textView {
                                     id = versus_text
                                     text = "VS"
-                                }.lparams{centerHorizontally()}
+                                    textSize = 20f
+                                    this.gravity = Gravity.CENTER_VERTICAL
+                                }.lparams{
+                                    centerHorizontally()
+                                    centerVertically()
+                                }
 
                                 homeScore = textView {
-                                    textSize = 22f
+                                    id = score_home_detail
+                                    textSize = 30f
                                     typeface = Typeface.DEFAULT_BOLD
-                                }.lparams {leftOf(versus_text)}
+                                    this.gravity = Gravity.CENTER
+                                }.lparams {
+                                    leftOf(versus_text)
+                                    rightMargin = dip(5)
+                                    centerHorizontally()
+                                    centerVertically()
+                                }
 
                                 awayScore = textView {
-                                    textSize = 22f
+                                    id = score_away_detail
+                                    textSize = 30f
                                     typeface = Typeface.DEFAULT_BOLD
-                                }.lparams {rightOf(versus_text)}
+                                    this.gravity = Gravity.CENTER
+                                }.lparams {
+                                    rightOf(versus_text)
+                                    leftMargin = dip(5)
+                                    centerHorizontally()
+                                    centerVertically()
+                                }
+
+                                teamBadgeHome = imageView {
+                                    id = team_logo_home
+                                }.lparams{
+                                    height = dip(50)
+                                    width = dip(50)
+                                    alignParentStart()
+                                    leftOf(score_home_detail)
+                                    bottomMargin = dip(10)
+                                }
+
+                                teamBadgeAway = imageView {
+                                    id = team_logo_away
+                                }.lparams{
+                                    height = dip(50)
+                                    width = dip(50)
+                                    alignParentEnd()
+                                    rightOf(score_away_detail)
+                                    bottomMargin = dip(10)
+                                }
                             }
 
+                            relativeLayout {
+                                lparams(width = matchParent, height = wrapContent)
 
-                            homeTeam = textView {
-                                this.gravity = Gravity.CENTER
+                                homeTeam = textView {
+                                    id = team_home_detail
+                                    textSize = 18f
+                                    typeface = Typeface.DEFAULT_BOLD
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams{
+                                    alignParentStart()
+                                    width = dip(150)
+                                    centerHorizontally()
+                                }
+
+                                awayTeam = textView {
+                                    id = team_away_detail
+                                    textSize = 18f
+                                    typeface = Typeface.DEFAULT_BOLD
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams {
+                                    alignParentEnd()
+                                    width = dip(150)
+                                    centerHorizontally()
+                                }
+
+                                homeFormation = textView {
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams{
+                                    alignParentLeft()
+                                    below(team_home_detail)
+                                    width = dip(150)
+                                    centerHorizontally()
+                                }
+
+                                awayFormation = textView {
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams {
+                                    alignParentRight()
+                                    below(team_away_detail)
+                                    width = dip(150)
+                                    centerHorizontally()
+                                }
                             }
 
-                            awayTeam = textView {
-                                this.gravity = Gravity.CENTER
+                            view {
+                                backgroundColorResource = R.color.colorPrimary
+                            }.lparams(width = matchParent, height = dip(1)) {
+                                topMargin = dip(10)
+                                bottomMargin = dip(10)
                             }
 
+                            relativeLayout {
+                                lparams(width = matchParent, height = wrapContent)
+
+                                textView {
+                                    id = goal_text
+                                    text = "Goals"
+                                    textColorResource = R.color.colorPrimary
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams{
+                                    centerHorizontally()
+                                }
+
+                                homeGoal = textView {
+                                    this.gravity = Gravity.LEFT
+                                }.lparams{
+                                    alignParentStart()
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+
+                                awayGoal = textView {
+                                    this.gravity = Gravity.RIGHT
+                                }.lparams{
+                                    alignParentEnd()
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+                            }
+
+                            relativeLayout {
+                                lparams(width = matchParent, height = wrapContent)
+
+                                textView {
+                                    id = shot_text
+                                    text = "Shots"
+                                    textColorResource = R.color.colorPrimary
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams{
+                                    centerHorizontally()
+                                }
+
+                                homeShot = textView {
+                                    this.gravity = Gravity.LEFT
+                                }.lparams{
+                                    alignParentStart()
+                                    leftOf(shot_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+
+                                awayShot = textView {
+                                    this.gravity = Gravity.RIGHT
+                                }.lparams{
+                                    alignParentEnd()
+                                    rightOf(shot_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+                            }
+
+                            view {
+                                backgroundColorResource = R.color.colorPrimary
+                            }.lparams(width = matchParent, height = dip(1)) {
+                                topMargin = dip(10)
+                                bottomMargin = dip(10)
+                            }
+
+                            textView {
+                                id = lineup_text
+                                text = "Lineups"
+                                this.gravity = Gravity.CENTER_HORIZONTAL
+                            }.lparams {
+                                bottomMargin = dip(10)
+                            }
+
+                            relativeLayout {
+                                lparams(width = matchParent, height = wrapContent)
+
+                                textView {
+                                    id = goalkeeper_text
+                                    text = "Goalkeeper"
+                                    textColorResource = R.color.colorPrimary
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams{
+                                    centerHorizontally()
+                                    bottomMargin = dip(10)
+                                }
+
+                                homeGoalkeeper = textView {
+                                    this.gravity = Gravity.LEFT
+                                }.lparams{
+                                    alignParentStart()
+                                    leftOf(goalkeeper_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+
+                                awayGoalkeeper = textView {
+                                    this.gravity = Gravity.RIGHT
+                                }.lparams{
+                                    alignParentEnd()
+                                    rightOf(goalkeeper_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+                            }
+
+                            relativeLayout {
+                                lparams(width = matchParent, height = wrapContent)
+
+                                textView {
+                                    id = defense_text
+                                    text = "Defense"
+                                    textColorResource = R.color.colorPrimary
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams{
+                                    centerHorizontally()
+                                    bottomMargin = dip(10)
+                                }
+
+                                homeDefense = textView {
+                                    this.gravity = Gravity.LEFT
+                                }.lparams{
+                                    alignParentStart()
+                                    leftOf(defense_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+
+                                awayDefense = textView {
+                                    this.gravity = Gravity.RIGHT
+                                }.lparams{
+                                    alignParentEnd()
+                                    rightOf(defense_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+                            }
+
+                            relativeLayout {
+                                lparams(width = matchParent, height = wrapContent)
+
+                                textView {
+                                    id = midfield_text
+                                    text = "Midfield"
+                                    textColorResource = R.color.colorPrimary
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams{
+                                    centerHorizontally()
+                                    bottomMargin = dip(10)
+                                }
+
+                                homeMidfield = textView {
+                                    this.gravity = Gravity.LEFT
+                                }.lparams{
+                                    alignParentStart()
+                                    leftOf(midfield_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+
+                                awayMidfield = textView {
+                                    this.gravity = Gravity.RIGHT
+                                }.lparams{
+                                    alignParentEnd()
+                                    rightOf(midfield_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+                            }
+
+                            relativeLayout {
+                                lparams(width = matchParent, height = wrapContent)
+
+                                textView {
+                                    id = forward_text
+                                    text = "Forward"
+                                    textColorResource = R.color.colorPrimary
+                                    this.gravity = Gravity.CENTER_HORIZONTAL
+                                }.lparams{
+                                    centerHorizontally()
+                                }
+
+                                homeForward = textView {
+                                    this.gravity = Gravity.LEFT
+                                }.lparams{
+                                    alignParentStart()
+                                    leftOf(forward_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+
+                                awayForward = textView {
+                                    this.gravity = Gravity.RIGHT
+                                }.lparams{
+                                    alignParentEnd()
+                                    rightOf(forward_text)
+                                    width = dip(100)
+                                    height = wrapContent
+                                }
+                            }
                         }
                         progressBar = progressBar {
                         }.lparams {
@@ -161,11 +463,28 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
 //                data[0].intHomeScore,
 //                data[0].intAwayScore)
         swipeRefresh.isRefreshing = false
-        //Picasso.get().load(data[0].teamBadge).into(teamBadge)
+        Picasso.get().load("https://www.thesportsdb.com/images/media/team/badge/qtwprq1473536474.png").into(teamBadgeHome)
+        Picasso.get().load("https://www.thesportsdb.com/images/media/team/badge/qtwprq1473536474.png").into(teamBadgeAway)
         homeTeam.text = data[0].strHomeTeam
         awayTeam.text = data[0].strAwayTeam
         homeScore.text = data[0].intHomeScore
         awayScore.text = data[0].intAwayScore
+        homeShot.text = data[0].intHomeShots
+        awayShot.text = data[0].intAwayShots
+        homeGoal.text = data[0].strHomeGoalDetails
+        awayGoal.text = data[0].strAwayGoalDetails
+        homeFormation.text = data[0].strHomeFormation
+        awayFormation.text = data[0].strAwayFormation
+
+        homeGoalkeeper.text = data[0].strHomeLineupGoalkeeper
+        awayGoalkeeper.text = data[0].strAwayLineupGoalkeeper
+        homeDefense.text = data[0].strHomeLineupDefense
+        awayDefense.text = data[0].strAwayLineupDefense
+        homeMidfield.text = data[0].strHomeLineupMidfield
+        awayMidfield.text = data[0].strAwayLineupMidfield
+        homeForward.text = data[0].strHomeLineupForward
+        awayForward.text = data[0].strAwayLineupForward
+
         dateEvent.text = data[0].dateEvent
     }
 

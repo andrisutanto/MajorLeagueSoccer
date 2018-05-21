@@ -50,7 +50,8 @@ class PrevEventFragment : Fragment(), AnkoComponent<Context>, PrevEventView {
         val request = ApiRepository()
         val gson = Gson()
         presenter = PrevEventPresenter(this, request, gson)
-        leagueId = "4346"
+        //leagueId = "4346"
+        leagueId = "4328"
         presenter.getPrevEventList(leagueId)
 //        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 //            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
