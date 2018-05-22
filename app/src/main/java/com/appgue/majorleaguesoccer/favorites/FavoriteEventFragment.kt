@@ -9,11 +9,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.appgue.majorleaguesoccer.R
 import com.appgue.majorleaguesoccer.db.Favorite
 import com.appgue.majorleaguesoccer.db.FavoriteEvent
 import com.appgue.majorleaguesoccer.db.database
+import com.appgue.majorleaguesoccer.db.databaseEvent
 import com.appgue.majorleaguesoccer.details.TeamDetailActivity
+import com.appgue.majorleaguesoccer.eventdetails.EventDetailActivity
 import org.jetbrains.anko.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
@@ -35,23 +38,25 @@ class FavoriteEventFragment : Fragment(), AnkoComponent<Context> {
         super.onActivityCreated(savedInstanceState)
 
         adapter = FavoriteEventAdapter(favoritesEvent){
-            ctx.startActivity<TeamDetailActivity>("id" to "${it.teamId}")
+            ctx.startActivity<EventDetailActivity>("id" to "${it.eventId}",
+                    "idHomeTeam" to "${it.teamHomeId}",
+                    "idAwayTeam" to "${it.teamAwayId}")
         }
 
         listEvent.adapter = adapter
-        showFavorite()
+        showFavoriteEvent()
         swipeRefresh.onRefresh {
             favoritesEvent.clear()
-            showFavorite()
+            showFavoriteEvent()
         }
     }
 
-    private fun showFavorite(){
-        context?.database?.use {
+    private fun showFavoriteEvent(){
+        context?.databaseEvent?.use {
             swipeRefresh.isRefreshing = false
             val result = select(FavoriteEvent.TABLE_FAVORITE_EVENT)
-            val favoriteEvent = result.parseList(classParser<FavoriteEvent>())
-            favoritesEvent.addAll(favoriteEvent)
+            val favoriteEvents = result.parseList(classParser<FavoriteEvent>())
+            favoritesEvent.addAll(favoriteEvents)
             adapter.notifyDataSetChanged()
         }
     }
@@ -63,6 +68,7 @@ class FavoriteEventFragment : Fragment(), AnkoComponent<Context> {
     override fun createView(ui: AnkoContext<Context>): View = with(ui){
         linearLayout {
             lparams (width = matchParent, height = wrapContent)
+            orientation = LinearLayout.VERTICAL
             topPadding = dip(16)
             leftPadding = dip(16)
             rightPadding = dip(16)

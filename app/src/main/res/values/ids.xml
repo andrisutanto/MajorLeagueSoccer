@@ -20,6 +20,14 @@
     <item name="team_home_detail" type="id" />
     <item name="team_away_detail" type="id" />
 
+    <!--note: ID pada bagian favorite-->
+    <item name="event_date_favorite" type="id" />
+    <item name="versus_favorite" type="id" />
+    <item name="team_home_favorite" type="id" />
+    <item name="score_home_favorite" type="id" />
+    <item name="score_away_favorite" type="id" />
+    <item name="team_away_favorite" type="id" />
+
 
     <item name="goal_text" type="id" />
     <item name="shot_text" type="id" />

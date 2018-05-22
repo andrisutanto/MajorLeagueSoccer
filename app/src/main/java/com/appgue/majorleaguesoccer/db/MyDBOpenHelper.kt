@@ -23,15 +23,19 @@ class MyDBOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "FavoriteEvent
     override fun onCreate(db: SQLiteDatabase) {
         // Here you create tables
         db.createTable(FavoriteEvent.TABLE_FAVORITE_EVENT, true,
-                Favorite.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
-                Favorite.TEAM_ID to TEXT + UNIQUE,
-                Favorite.TEAM_NAME to TEXT,
-                Favorite.TEAM_BADGE to TEXT)
+                FavoriteEvent.EVENT_ID to TEXT + UNIQUE + PRIMARY_KEY,
+                FavoriteEvent.TEAM_HOME to TEXT,
+                FavoriteEvent.TEAM_AWAY to TEXT,
+                FavoriteEvent.EVENT_DATE to TEXT,
+                FavoriteEvent.SCORE_HOME to TEXT,
+                FavoriteEvent.SCORE_AWAY to TEXT,
+                FavoriteEvent.TEAM_HOME_ID to TEXT,
+                FavoriteEvent.TEAM_AWAY_ID to TEXT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Here you can upgrade tables, as usual
-        db.dropTable(Favorite.TABLE_FAVORITE, true)
+        db.dropTable(FavoriteEvent.TABLE_FAVORITE_EVENT, true)
     }
 }
 
