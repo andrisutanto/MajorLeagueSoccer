@@ -11,11 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.appgue.majorleaguesoccer.R
-import com.appgue.majorleaguesoccer.db.Favorite
 import com.appgue.majorleaguesoccer.db.FavoriteEvent
-import com.appgue.majorleaguesoccer.db.database
 import com.appgue.majorleaguesoccer.db.databaseEvent
-import com.appgue.majorleaguesoccer.details.TeamDetailActivity
 import com.appgue.majorleaguesoccer.eventdetails.EventDetailActivity
 import org.jetbrains.anko.*
 import org.jetbrains.anko.db.classParser

@@ -4,6 +4,7 @@
     <string name="favoritesEvent">Fav. Events</string>
     <string name="teams">Teams</string>
     <string name="prevmatch">Last Match</string>
+    <string name="nextmatch">Next Match</string>
     <string name="vsstr">VS</string>
     <array name="league">
         <item>American%20Major%20League%20Soccer</item>

@@ -4,15 +4,9 @@ import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.appgue.majorleaguesoccer.R
-import com.appgue.majorleaguesoccer.R.id.event_date
-import com.appgue.majorleaguesoccer.db.Favorite
 import com.appgue.majorleaguesoccer.db.FavoriteEvent
-import com.appgue.majorleaguesoccer.model.Event
-import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 

@@ -9,10 +9,10 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/teams"
+        android:id="@+id/nextmatch"
         android:enabled="true"
-        android:title="@string/teams"
-        android:icon="@drawable/ic_teams"
+        android:title="@string/nextmatch"
+        android:icon="@drawable/ic_nextmatch"
         app:showAsAction="ifRoom"/>
 
     <item
@@ -22,10 +22,4 @@
         android:title="@string/favoritesEvent"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/favorites"
-        android:enabled="true"
-        android:icon="@drawable/ic_favorites"
-        android:title="@string/favorites"
-        app:showAsAction="ifRoom" />
 </menu>

@@ -17,7 +17,6 @@ import android.widget.TextView
 import com.appgue.majorleaguesoccer.R
 import com.appgue.majorleaguesoccer.R.id.*
 import com.appgue.majorleaguesoccer.api.ApiRepository
-import com.appgue.majorleaguesoccer.details.TeamDetailPresenter
 import com.appgue.majorleaguesoccer.model.Event
 import com.appgue.majorleaguesoccer.model.TeamBadge
 import com.appgue.majorleaguesoccer.api.InitRetrofit
@@ -42,7 +41,6 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
 class EventDetailActivity : AppCompatActivity(), EventDetailView {
     private lateinit var presenter: EventDetailPresenter
-    private lateinit var presenterTeam: TeamDetailPresenter
     private lateinit var events: Event
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
@@ -550,7 +548,7 @@ class EventDetailActivity : AppCompatActivity(), EventDetailView {
                 delete(FavoriteEvent.TABLE_FAVORITE_EVENT, "(EVENT_ID = {id})",
                         "id" to id)
             }
-            snackbar(swipeRefresh, "Removed to favorite Event").show()
+            snackbar(swipeRefresh, "Removed to favorite event").show()
         } catch (e: SQLiteConstraintException){
             snackbar(swipeRefresh, e.localizedMessage).show()
         }

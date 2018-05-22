@@ -4,6 +4,9 @@ import com.appgue.majorleaguesoccer.api.ApiRepository
 import com.appgue.majorleaguesoccer.api.TheSportDBApi
 import com.appgue.majorleaguesoccer.model.EventResponse
 import com.google.gson.Gson
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -13,16 +16,15 @@ class PrevEventPresenter(private val view: PrevEventView,
 
     fun getPrevEventList(leagueId: String?) {
         view.showLoading()
-        doAsync {
-            val data = gson.fromJson(apiRepository
+        async(UI) {
+            val data = bg {
+                    gson.fromJson(apiRepository
                     .doRequest(TheSportDBApi.getPrevMatch(leagueId)),
                     EventResponse::class.java
-            )
-
-            uiThread {
-                view.hideLoading()
-                view.showPrevEventList(data.events)
+                    )
             }
+            view.showPrevEventList(data.await().events)
+            view.hideLoading()
         }
     }
 }

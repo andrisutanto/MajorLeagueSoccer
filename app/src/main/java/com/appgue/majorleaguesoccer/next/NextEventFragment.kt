@@ -1,5 +1,4 @@
-package com.appgue.majorleaguesoccer.teams
-
+package com.appgue.majorleaguesoccer.next
 
 import android.content.Context
 import android.os.Bundle
@@ -10,66 +9,49 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import com.appgue.majorleaguesoccer.R
-import com.appgue.majorleaguesoccer.R.array.league
-import com.appgue.majorleaguesoccer.R.color.colorAccent
 import com.appgue.majorleaguesoccer.api.ApiRepository
-import com.appgue.majorleaguesoccer.details.TeamDetailActivity
-import com.appgue.majorleaguesoccer.model.Team
+import com.appgue.majorleaguesoccer.eventdetails.EventDetailActivity
+import com.appgue.majorleaguesoccer.model.Event
 import com.appgue.majorleaguesoccer.util.invisible
 import com.appgue.majorleaguesoccer.util.visible
 import com.google.gson.Gson
-import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
-/**
- * Created by Andri on 5/19/2018.
- */
-class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsView {
+class NextEventFragment : Fragment(), AnkoComponent<Context>, NextEventView {
 
-    private var teams: MutableList<Team> = mutableListOf()
-    private lateinit var presenter: TeamsPresenter
-    private lateinit var adapter: TeamsAdapter
-    private lateinit var spinner: Spinner
+    private var nextevent: MutableList<Event> = mutableListOf()
+    private lateinit var presenter: NextEventPresenter
+    private lateinit var adapter: NextEventAdapter
     private lateinit var listEvent: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
-    private lateinit var leagueName: String
+    private lateinit var leagueId: String
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
-        //val spinnerItems = resources.getStringArray(league)
-        //val spinnerAdapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, spinnerItems)
-        //spinner.adapter = spinnerAdapter
-
-        adapter = TeamsAdapter(teams) {
-            ctx.startActivity<TeamDetailActivity>("id" to "${it.teamId}")
+        adapter = NextEventAdapter(nextevent) {
+            ctx.startActivity<EventDetailActivity>(
+                    "id" to "${it.idEvent}",
+                    "idHomeTeam" to "${it.idHomeTeam}",
+                    "idAwayTeam" to "${it.idAwayTeam}")
         }
         listEvent.adapter = adapter
 
         val request = ApiRepository()
         val gson = Gson()
-        presenter = TeamsPresenter(this, request, gson)
-        leagueName = "American%20Major%20League%20Soccer"
-        presenter.getTeamList(leagueName)
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                leagueName = "American%20Major%20League%20Soccer"
-//                presenter.getTeamList(leagueName)
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>) {}
-//        }
+        presenter = NextEventPresenter(this, request, gson)
+        leagueId = "4346"
+        presenter.getNextEventList(leagueId)
 
         swipeRefresh.onRefresh {
-            presenter.getTeamList(leagueName)
+            presenter.getNextEventList(leagueId)
         }
     }
 
@@ -85,11 +67,9 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsView {
             leftPadding = dip(16)
             rightPadding = dip(16)
 
-//            spinner = spinner {
-//                id = R.id.spinner
-//            }
+
             swipeRefresh = swipeRefreshLayout {
-                setColorSchemeResources(colorAccent,
+                setColorSchemeResources(R.color.colorAccent,
                         android.R.color.holo_green_light,
                         android.R.color.holo_orange_light,
                         android.R.color.holo_red_light)
@@ -120,10 +100,10 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsView {
         progressBar.invisible()
     }
 
-    override fun showTeamList(data: List<Team>) {
+    override fun showNextEventList(data: List<Event>) {
         swipeRefresh.isRefreshing = false
-        teams.clear()
-        teams.addAll(data)
+        nextevent.clear()
+        nextevent.addAll(data)
         adapter.notifyDataSetChanged()
     }
 

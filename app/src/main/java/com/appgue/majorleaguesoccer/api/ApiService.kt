@@ -1,6 +1,5 @@
 package com.appgue.majorleaguesoccer.api
 
-import com.appgue.majorleaguesoccer.model.Team
 import com.appgue.majorleaguesoccer.model.TeamBadge
 import retrofit2.Call
 import retrofit2.http.GET

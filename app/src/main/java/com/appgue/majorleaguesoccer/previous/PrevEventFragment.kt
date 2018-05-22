@@ -13,7 +13,6 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.appgue.majorleaguesoccer.R
 import com.appgue.majorleaguesoccer.api.ApiRepository
-import com.appgue.majorleaguesoccer.details.TeamDetailActivity
 import com.appgue.majorleaguesoccer.eventdetails.EventDetailActivity
 import com.appgue.majorleaguesoccer.model.Event
 import com.appgue.majorleaguesoccer.util.invisible
@@ -30,7 +29,6 @@ class PrevEventFragment : Fragment(), AnkoComponent<Context>, PrevEventView {
     private var prevevent: MutableList<Event> = mutableListOf()
     private lateinit var presenter: PrevEventPresenter
     private lateinit var adapter: PrevEventAdapter
-    //private lateinit var spinner: Spinner
     private lateinit var listEvent: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
@@ -38,10 +36,6 @@ class PrevEventFragment : Fragment(), AnkoComponent<Context>, PrevEventView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //val spinnerItems = resources.getStringArray(league)
-        //val spinnerAdapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, spinnerItems)
-        //spinner.adapter = spinnerAdapter
-
         adapter = PrevEventAdapter(prevevent) {
             ctx.startActivity<EventDetailActivity>(
                     "id" to "${it.idEvent}",
@@ -53,17 +47,8 @@ class PrevEventFragment : Fragment(), AnkoComponent<Context>, PrevEventView {
         val request = ApiRepository()
         val gson = Gson()
         presenter = PrevEventPresenter(this, request, gson)
-        //leagueId = "4346"
-        leagueId = "4328"
+        leagueId = "4346"
         presenter.getPrevEventList(leagueId)
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                leagueName = "American%20Major%20League%20Soccer"
-//                presenter.getTeamList(leagueName)
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>) {}
-//        }
 
         swipeRefresh.onRefresh {
             presenter.getPrevEventList(leagueId)
@@ -82,9 +67,6 @@ class PrevEventFragment : Fragment(), AnkoComponent<Context>, PrevEventView {
             leftPadding = dip(16)
             rightPadding = dip(16)
 
-//            spinner = spinner {
-//                id = R.id.spinner
-//            }
             swipeRefresh = swipeRefreshLayout {
                 setColorSchemeResources(R.color.colorAccent,
                         android.R.color.holo_green_light,
