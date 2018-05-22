@@ -16,6 +16,13 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/favoritesEvent"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorites"
+        android:title="@string/favoritesEvent"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/favorites"
         android:enabled="true"
         android:icon="@drawable/ic_favorites"

@@ -1,4 +1,4 @@
-package com.appgue.majorleaguesoccer.util
+package com.appgue.majorleaguesoccer.api
 
 import com.appgue.majorleaguesoccer.model.Team
 import com.appgue.majorleaguesoccer.model.TeamBadge

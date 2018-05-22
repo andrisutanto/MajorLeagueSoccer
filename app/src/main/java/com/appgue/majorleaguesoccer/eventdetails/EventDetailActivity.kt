@@ -1,6 +1,5 @@
 package com.appgue.majorleaguesoccer.eventdetails
 
-import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
@@ -9,8 +8,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.Gravity
 import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -18,30 +15,17 @@ import android.widget.TextView
 import com.appgue.majorleaguesoccer.R
 import com.appgue.majorleaguesoccer.R.id.*
 import com.appgue.majorleaguesoccer.api.ApiRepository
-import com.appgue.majorleaguesoccer.api.TheSportDBApi
-import com.appgue.majorleaguesoccer.api.TheSportDBApi.getTeamDetail
-import com.appgue.majorleaguesoccer.db.Favorite
-import com.appgue.majorleaguesoccer.db.database
 import com.appgue.majorleaguesoccer.details.TeamDetailPresenter
-import com.appgue.majorleaguesoccer.details.TeamDetailView
 import com.appgue.majorleaguesoccer.model.Event
-import com.appgue.majorleaguesoccer.model.Team
 import com.appgue.majorleaguesoccer.model.TeamBadge
-import com.appgue.majorleaguesoccer.model.TeamResponse
-import com.appgue.majorleaguesoccer.util.InitRetrofit
+import com.appgue.majorleaguesoccer.api.InitRetrofit
 import com.appgue.majorleaguesoccer.util.invisible
 import com.appgue.majorleaguesoccer.util.visible
 import com.google.gson.Gson
-import com.google.gson.internal.bind.TypeAdapters.URL
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
-import org.jetbrains.anko.db.classParser
-import org.jetbrains.anko.db.delete
-import org.jetbrains.anko.db.insert
-import org.jetbrains.anko.db.select
-import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
