@@ -6,13 +6,4 @@
     <string name="prevmatch">Last Match</string>
     <string name="nextmatch">Next Match</string>
     <string name="vsstr">VS</string>
-    <array name="league">
-        <item>American%20Major%20League%20Soccer</item>
-        <item>English%20Premier%20League</item>
-        <item>English%20League%20Championship</item>
-        <item>German%20Bundesliga</item>
-        <item>Italian%20Serie%20A</item>
-        <item>French%20Ligue%201</item>
-        <item>Spanish%20La%20Liga</item>
-    </array>
 </resources>

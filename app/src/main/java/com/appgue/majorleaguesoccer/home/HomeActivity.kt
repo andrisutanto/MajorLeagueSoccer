@@ -3,9 +3,7 @@ package com.appgue.majorleaguesoccer.home
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.appgue.majorleaguesoccer.R
-import com.appgue.majorleaguesoccer.R.id.favoritesEvent
-import com.appgue.majorleaguesoccer.R.id.prevmatch
-import com.appgue.majorleaguesoccer.R.id.nextmatch
+import com.appgue.majorleaguesoccer.R.id.*
 import com.appgue.majorleaguesoccer.R.layout.activity_home
 import com.appgue.majorleaguesoccer.favorites.FavoriteEventFragment
 import com.appgue.majorleaguesoccer.next.NextEventFragment
